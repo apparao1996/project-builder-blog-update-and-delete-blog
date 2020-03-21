@@ -10,15 +10,7 @@ import java.util.Properties;
 
 public class ConnectionManager {
 	
-	public static Properties loadPropertiesFile() throws Exception {
-		Properties prop = new Properties();
-		InputStream in = ConnectionManager.class.getClassLoader().getResourceAsStream("jdbc.properties");
-		prop.load(in);
-		in.close(); 
-		return prop;
-	}
-
-	public static Connection getConnection() {
+		public static Connection getConnection() {
 		Connection connection = null;
 		Properties prop = null;
 		try {
@@ -27,15 +19,17 @@ public class ConnectionManager {
 			
 			e1.printStackTrace();
 		}
+		
+		
 		final String driver = prop.getProperty("driver");
 		final String url = prop.getProperty("url");
-	//	final String username = prop.getProperty("username");
-	//	final String password = prop.getProperty("password");
+		final String username = prop.getProperty("username");
+		final String password = prop.getProperty("password");
 		try {
 			Class.forName(driver);
 			
-		//	connection = DriverManager.getConnection(url,username,password);
-			connection = DriverManager.getConnection(url);
+		
+			connection = DriverManager.getConnection(url,username,password);
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -44,5 +38,14 @@ public class ConnectionManager {
 			e.printStackTrace();
 		}
 		return connection;
+	}
+	
+	
+	public static Properties loadPropertiesFile() throws Exception {
+		Properties prop = new Properties();
+		InputStream in = ConnectionManager.class.getClassLoader().getResourceAsStream("jdbc.properties");
+		prop.load(in);
+		in.close(); 
+		return prop;
 	}
 }
